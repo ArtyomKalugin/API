@@ -2,24 +2,28 @@ from flask import Flask, request
 import logging
 import json
 import random
-from answers import answers, situations
-from get_bonuse import bonuse
+from cards import cards
+from gamers import Gamer
 
 
 app = Flask(__name__)
 
-logging.basicConfig(filename='.log',
+logging.basicConfig(filename='alice_game.log',
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
 sessionStorage = {}
-move = 0
-sit = 0
-life = 100
-bon = [0, 0]
+names = ['Вы', 'Алиса', 'Бот Андрей']
 begin = True
-child = False
-junior = False
-yoth = False
+rules = False
+game = False
+now = None
+
+
+def spread():
+    for i in range(12):
+        me.add_card(cards.pop(random.choce(range(len(cards)))))
+        sec.add_card(cards.pop(random.choce(range(len(cards)))))
+        user.add_card(cards.pop(random.choce(range(len(cards)))))
 
 
 @app.route('/post', methods=['POST'])
@@ -42,11 +46,12 @@ def main():
 
 
 def handle_dialog(req, res):
-    # res['response']['end_session'] = True
+    global begin, game, rules
+    #res['response']['end_session'] = True
 
     user_id = req['session']['user_id']
     mis = ['Ты уверен? Давай все-таки сыграем!', 'Ну давай сыграем!', 'Давай играть!']
-    answers = answers[move]
+    answers = ['хорошо', 'давай', 'я согласен', 'начинай', 'хочу', 'окей', 'да']
 
     if req['session']['new']:
         sessionStorage[user_id] = {
@@ -56,14 +61,59 @@ def handle_dialog(req, res):
                 "Отстань!",
             ]
         }
-        res['response']['text'] = 'Привет! Давай сыграем в игру?'
+        res['response']['text'] = 'Привет! Давай сыграем в "сундучки"?'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
     question = req['request']['original_utterance'].lower()
 
+    if question in answers:
+        if begin:
+            res['response']['text'] = 'Начинаем! Хотите ознакомиться с правилами?'
+            begin = False
+            rules = True
+            return
 
+        if rules:
+            res['response']['text'] = 'Вот тут правила!'
+            res['response']['card'] = {"type": "BigImage",
+                                        "image_id": "965417/a734b446e4c419cf014d",
+                                        "title": "Правила игры",
+                                        "description": "Правилы игры в сундучки",
+                                        "button": {"text": "Правила",
+                                                    "url": "http://127.0.0.1:8080/rules",
+                                                    "payload": {}}}
 
+            me = Gamer(3)
+            sec = Gamer(3)
+            user = Gamer(3)
+            spread()
+            now = random.choice(range(1, 4))
+
+            rules = False
+            game = True
+            return
+
+    if game:
+        res['response']['text'] = 'Ходит: ' + names[now - 1]
+
+    if begin:
+        res['response']['text'] = random.choice(mis)
+        return
+    elif rules:
+        me = Gamer(3)
+        sec = Gamer(3)
+        user = Gamer(3)
+        spread()
+        now = random.choice(range(1, 4))
+
+        res['response']['text'] = 'Приступаем!'
+
+        rules = False
+        game = True
+    else:
+        res['response']['text'] = 'Я не совсем тебя поняла. Попробуй еще один раз.'
+        return
     res['response']['buttons'] = get_suggests(user_id)
 
 

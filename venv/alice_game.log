@@ -1,0 +1,46 @@
+2019-04-25 19:29:35,131 INFO werkzeug  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-04-25 19:29:38,695 ERROR flask.app Exception on /post [POST]
+Traceback (most recent call last):
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/Àðò¸ì/PycharmProjects/API/venv/alice_game.py", line 23, in main
+    'session': request.json['session'],
+TypeError: 'NoneType' object is not subscriptable
+2019-04-25 19:29:38,698 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:29:38] "POST /post HTTP/1.1" 500 -
+2019-04-25 19:31:53,015 INFO werkzeug  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-04-25 19:31:56,042 ERROR flask.app Exception on /post [POST]
+Traceback (most recent call last):
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Àðò¸ì\PycharmProjects\API\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/Àðò¸ì/PycharmProjects/API/venv/alice_game.py", line 23, in main
+    'session': request.json['session'],
+TypeError: 'NoneType' object is not subscriptable
+2019-04-25 19:31:56,047 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:31:56] "POST /post HTTP/1.1" 500 -
+2019-04-25 19:37:14,968 INFO werkzeug  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-04-25 19:37:21,078 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:37:21] "POST /post HTTP/1.1" 200 -
+2019-04-25 19:38:53,756 INFO werkzeug  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-04-25 19:38:57,343 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:38:57] "POST /post HTTP/1.1" 200 -
+2019-04-25 19:39:31,844 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:39:31] "POST /post HTTP/1.1" 200 -
+2019-04-25 19:39:52,923 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:39:52] "POST /post HTTP/1.1" 200 -
+2019-04-25 19:40:14,038 INFO werkzeug  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-04-25 19:40:15,718 INFO werkzeug 127.0.0.1 - - [25/Apr/2019 19:40:15] "POST /post HTTP/1.1" 200 -
