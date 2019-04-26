@@ -95,7 +95,10 @@ def handle_dialog(req, res):
             return
 
     if game:
-        res['response']['text'] = 'Ходит: ' + names[now - 1]
+        message = 'Ходит: ' + names[now - 1]
+        if now == 1:
+            pass
+        #res['response']['text'] = 'Ходит: ' + names[now - 1]
 
     if begin:
         res['response']['text'] = random.choice(mis)
