@@ -10,6 +10,7 @@ class Gamer():
         self.my_cards_now = []
         self.first_time = False
         self.num_now = False
+        self.exit = False
 
         self.second_gamer_cards = {}
         self.player_cards = {}
@@ -29,6 +30,7 @@ class Gamer():
             self.my_cards.append(card)
 
         self.my_cards = sorted(self.my_cards, key=lambda x: int(x.split()[1]))
+        self.check_chest()
 
     def check_chest(self):
         run = 0
@@ -53,14 +55,17 @@ class Gamer():
                 del self.my_cards[card_start: i + 1]
                 minus_i += 1
 
+        if len(self.my_cards) == 0:
+            self.exit = True
+
     def show_chest(self):
         return self.chest
 
     def show_cards(self):
-        return self.my_cards
+        chests = 'Сундучки:' + str(self.chest)
+        return self.my_cards + chests.split()
 
     def get_answer(self, value=False, suit=False, num=False):
-        answer = 'Нет'
         if value:
             answer = 'Нету'
             for elem in self.my_cards:
@@ -87,8 +92,6 @@ class Gamer():
                     quantity += 1
 
             if quantity == len(self.suit_answer):
-                answer = 'Да'
-
                 return self.hand_cards()
             else:
                 self.suit_answer = []
@@ -175,9 +178,21 @@ class Gamer():
 
     def make_choice(self, value=None, suit=None, num=None):
         if value:
-            if len(self.player_cards.keys()) == 0 and len(self.second_gamer_cards.keys()) == 0:
+            self.my_card_now = random.choice(self.my_cards)
+            self.count_cards(self.my_card_now)
+
+            if self.my_card.split()[1] in self.player_cards.keys():
+                self.my_enemy = 1
+
+                return self.my_enemy, self.my_card_now.split()[1]
+
+            elif self.my_card.split()[1] in self.second_gamer_cards.keys():
+                self.my_enemy = 2
+
+                return self.my_enemy, self.my_card_now.split()[1]
+
+            else:
                 self.first_time = True
-                self.my_card_now = random.chocie(self.my_cards)
                 self.count_cards(self.my_card_now)
 
                 self.my_enemy = random.choice(range(1, 3))
@@ -198,8 +213,33 @@ class Gamer():
 
                 return self.num_now
 
+            elif self.my_enemy == 1:
+                num = self.player_cards[self.my_card_now.split()[1]]['num']
+                if num:
+                    cards = [1, 2, 3, 4]
+                    del cards[:len(self.my_cards_now)]
+                    if num.split()[0] == 'not':
+                        number = random.choice(range(5 - len(self.my_cards_now)))
+                        if str(number) == num.split()[1]:
+                            while str(number) == num.split()[1]:
+                                number = random.choice(range(5 - len(self.my_cards_now)))
+                        self.num_now = number
+                    else:
+                        self.num_now = num
+                else:
+                    num = len(self.my_cards_now)
+                    if num == 1:
+                        self.num_now = random.choice(range(1, 4))
+                    if num == 2:
+                        self.num_now = random.choice(range(1, 3))
+                    if num == 3:
+                        self.num_now = 1
+
+                return str(self.num_now)
+
         if suit:
-            lear = ['т', 'ч', 'п', 'б']
+            lear = ['к', 'ч', 'п', 'б']
+            choice = []
             if self.first_time:
                 self.change_enemy_cards(self.my_enemy, num=(self.num_now, True))
 
@@ -211,14 +251,18 @@ class Gamer():
                     for elem in self.my_cards_now:
                         del lear[lear.index(elem.split()[0])]
 
-                choice = random.choice(lear)
+                for i in range(self.num_now):
+                    choice.append(random.choice(lear))
 
-                return lear
+                return choice
 
     def count_cards(self, card):
         for elem in self.my_cards:
             if card.split()[1] == elem.split()[1]:
                 self.my_cards_now.append(elem)
+
+    def check_exit(self):
+        return self.exit
 
 
 a = Gamer(3)
@@ -228,22 +272,17 @@ a.add_card('ч 7')
 a.add_card('к 7')
 a.add_card('к 6')
 a.add_card('б 7')
-a.add_card('ч 6')
+a.add_card('ч 10')
 a.add_card('б 10')
 a.check_chest()
 print(a.show_cards())
 print()
-a.change_enemy_cards(2, value=('6', True))
-print(a.show_player_cards())
-print(a.show_second_cards())
+print(a.get_answer(value='6'))
+print(a.get_answer(num='2'))
+print(a.get_answer(suit='к п'))
 print()
-a.change_enemy_cards(2, num=('2', True))
-print(a.show_player_cards())
-print(a.show_second_cards())
-print()
-a.change_enemy_cards(2, suit=('т п', True))
-print(a.show_player_cards())
-print(a.show_second_cards())
-print()
+print(a.show_cards())
+
+
 
 
